@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Glitch Rabbit</title>
+    <meta name="author" content="xenohunter">
+    <style>
+
+        body {
+            margin: 0;
+            padding: 70px;
+            background: #223;
+        }
+
+        canvas {
+            width: 1200px;
+            height: 576px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #mask {
+            position: relative;
+            width: 1200px;
+            height: 576px;
+            margin: -576px auto 0;
+            background: #000;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #mask.on {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas width="1200" height="576"></canvas>
+    <div id="mask" class="on"></div>
+</body>
+
+<script src="constants.js"></script>
+<script src="tools.js"></script>
+<script src="timers.js"></script>
+
+<script src="texture.js"></script>
+<script src="animation.js"></script>
+<script src="glitches.js"></script>
+
+<script src="attacks.js"></script>
+<script src="powerups.js"></script>
+
+<script src="unit.js"></script>
+<script src="hero.js"></script>
+<script src="enemies.js"></script>
+
+<script src="camera.js"></script>
+<script src="levels.js"></script>
+<script src="menu.js"></script>
+
+<script src="music.js"></script>
+
+<script src="game.js"></script>
+
+</html>
