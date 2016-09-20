@@ -26,13 +26,12 @@ function Hero(x) {
     // Arguments are attack type and cost.
     on('KeyZ', self.attack.bind(self, 'shot', 1));
     on('KeyX', self.attack.bind(self, 'beam', 15));
-    on('KeyC', self.attack.bind(self, 'xxxx', 15));
 
     self.animation = new Animation(sprite);
 
     self.timers = {};
 
-    self.glitchAmount = self.maxGlitchAmount = 25;
+    self.glitchAmount = self.maxGlitchAmount = 25; // GLITCH is Hero's hit points.
     self.oneThird = self.maxGlitchAmount / 3; // To calculate GLITCH intensity.
 
     self.glitch = new Glitch(self.x, self.y, self.w, self.h, self.getGlitchIntensity());
@@ -62,7 +61,7 @@ Hero.prototype.ownTick = function () {
 
     level.iterateUnits(self.id, true, function (obj) {
         if (haveCollision(self, obj)) {
-            self.hit(obj.gp);
+            self.hit(obj.gp); // Hit hero with enemy's Glitch Points.
             obj.bump(self, self.ax, -12); // Direct collision bumps the enemy, then kills it.
         }
     });
@@ -73,10 +72,13 @@ Hero.prototype.glitchUp = function (n) {
 
     var self = this;
 
+    // To avoid several concurrent timers.
     gameTimers.clearTimeout(self.timers.glitch);
 
+    // Hits, powerups, or constant grow of GLITCH.
     self.glitchAmount += (n || 1);
 
+    // GLITCH bounds.
     if (self.glitchAmount > self.maxGlitchAmount) {
         self.glitchAmount = self.maxGlitchAmount;
     } else if (self.glitchAmount < 0) {
@@ -92,6 +94,7 @@ Hero.prototype.glitchUp = function (n) {
 
 };
 
+// That is visual part of Hero's GLITCH.
 Hero.prototype.glitchTrail = function () {
 
     var self = this,
@@ -120,6 +123,7 @@ Hero.prototype.run = function (left, rec) {
         self.ax = left ? -self.speed : self.speed;
         self.timers.run = gameTimers.setTimeout(self.run.bind(self, left, true), 50);
     }
+
 };
 
 Hero.prototype.stop = function (left) {
@@ -151,7 +155,7 @@ Hero.prototype.attack = function (type, cost) {
 };
 
 Hero.prototype.hit = function (n) {
-    this.glitchUp(-n);
+    this.glitchUp(-n); // It must be named glitchDown().
 };
 
 Hero.prototype.bump = function (bumper, ax, ay) {

@@ -6,10 +6,10 @@ function Music() {
     self.context = new AudioContext();
 
     vol = self.context.createGain();
-    vol.gain.value = 0.05;
+    vol.gain.value = 0.05; // Sound is very loud by default, that's strange.
     vol.connect(self.context.destination);
 
-    self.dest = vol;
+    self.dest = vol; // Gain node is the destination for track oscillators.
 
     self.tracks = [];
 
@@ -105,12 +105,14 @@ Track.prototype.playNote = function (note, noteValue) {
     osc.connect(self.dest);
     osc.start();
 
+    // Here, `triggerBeforeClear` is `true`. It guarantees the immediate stop of the sound.
     self.timers.setTimeout(osc.stop.bind(osc), noteValue - 20, true);
 
 };
 
 Track.prototype.stop = function () {
 
+    // Stop all the oscillators on all tracks.
     this.timers.nullifyTimers();
 
 };

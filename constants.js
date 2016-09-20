@@ -1,17 +1,17 @@
-var PIXEL_SIZE = 16;
+var PIXEL_SIZE = 16; // Scale factor for sprites and textures.
 
-var GAME_H = 432;
+var GAME_H = 432; // Game height is not the same as camera height (which is 576).
 
 var CAMERA_W = 1200;
 
-var START_X = 50;
+var START_X = 50; // Start point for Hero.
 
 var IMAGE_TYPE = 'image/gif';
 
 var SPRITES = {
 
     // Each `sprite` is converted into `new Image()`.
-    // WARNING: dataString is not full, `R0lGODlh` is added in `loadImages()`.
+    // WARNING: dataString is not full, the necessary `R0lGODlh` part is added in `loadImages()`.
 
     HERO: {
         sprite: 'HgAFAKECAPYHB////wAAAAAAACH5BAEKAAIALAAAAAAeAAUAAAIfVCx4mueYogm02oupbBRYX4FduEjZiTYeVDLmAk9VAQA7',
@@ -113,10 +113,8 @@ var SPRITES = {
 
 };
 
-// Duration of a whole note.
-var WHOLE_NOTE = 1920;
+var WHOLE_NOTE = 1920; // Duration of a whole note.
 
-// Frequencies.
 var NOTES = {
 
     C3: 130.81,
@@ -143,7 +141,7 @@ var NOTES = {
 
 // Note & note value pairs; bigger is shorter as note value here is a denominator in 1/n fraction.
 // 0 is for pause.
-// One line for a half of a whole note (by duration).
+// One line for the duration of half a whole note.
 var MUSIC = {
     T0: {
         oType: 'triangle',
@@ -186,6 +184,7 @@ var MUSIC = {
     }
 };
 
+// Text colors.
 var COLOR_WHITE = '#f9d4c1';
 var COLOR_RED = '#f65555';
 var COLOR_BLUE = '#1499ff';
@@ -194,37 +193,32 @@ var WIN_MESSAGES = ['YOU WIN!', 'DONE!', 'YOU ROCK!', 'GOOD JOB!'];
 var LOSE_MESSAGES = ['NOT TODAY', 'MAYBE, NEXT TIME', 'YOU WERE NEAR', 'YOU LOSE'];
 
 // Land texture colors.
-
 var LAND = [
-    [65,26,50],
-    [100,44,38],
-    [40,77,66]
-];
-
-var SAND = [
-    [236, 193, 89],
-    [203, 193, 135],
-    [239, 222, 128]
-];
-
-var DARK_SAND = [
-    [196, 143, 59],
-    [163, 133, 95],
-    [179, 182, 88]
-];
+        [65,26,50],
+        [100,44,38],
+        [40,77,66]
+    ],
+    SAND = [
+        [236, 193, 89],
+        [203, 193, 135],
+        [239, 222, 128]
+    ],
+    DARK_SAND = [
+        [196, 143, 59],
+        [163, 133, 95],
+        [179, 182, 88]
+    ];
 
 // Sky texture colors.
-
 var SKY = [
-    [93, 139, 228],
-    [98, 144, 233],
-    [103, 149, 238],
-    [108, 154, 243]
-];
-
-var NIGHT_SKY = [
-    [41, 2, 100],
-    [47, 5, 107],
-    [37, 3, 93],
-    [0, 2, 96]
-];
+        [93, 139, 228],
+        [98, 144, 233],
+        [103, 149, 238],
+        [108, 154, 243]
+    ],
+    NIGHT_SKY = [
+        [41, 2, 100],
+        [47, 5, 107],
+        [37, 3, 93],
+        [0, 2, 96]
+    ];

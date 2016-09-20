@@ -1,3 +1,5 @@
+// In every powerup*() function, `obj` is Hero.
+
 function powerupGlitchPlus(obj) {
     obj.glitchUp(random(10, 20));
 }
@@ -25,6 +27,7 @@ function Powerup(x, y) {
     self.id = getUniqueID();
     self.creationTime = currentTime;
 
+    // Choose a powerup randomly.
     effectArray = Powerup.EFFECTS[random(0, Powerup.EFFECTS.length - 1)];
     self.effect = effectArray[0];
     sprite = effectArray[1];
@@ -37,7 +40,7 @@ function Powerup(x, y) {
     self.h = sprite.h * PIXEL_SIZE;
 
     self.hp = 3;
-    self.gp = 0;
+    self.gp = 0; // To not hit Hero.
 
     level.units[self.id] = self;
 
@@ -45,15 +48,17 @@ function Powerup(x, y) {
 
 Powerup.prototype.tick = function () {
     if (currentTime - this.creationTime >= 5000) {
-        this.absorb();
+        this.absorb(); // Remove after 5 seconds.
     }
 };
 
+// Powerup can be destroyed.
 Powerup.prototype.hit = function () {
     this.hp--;
     if (!this.hp) this.absorb();
 };
 
+// Avoid visual bumping, just destroy instead.
 Powerup.prototype.bump = function (obj) {
     this.absorb(obj);
 };

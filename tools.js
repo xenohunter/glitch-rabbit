@@ -1,3 +1,4 @@
+// Inheritance tool.
 function extend(Child, Parent) {
     var F = function () {};
     F.prototype = Parent.prototype;
@@ -8,6 +9,7 @@ function random(from, to) {
     return Math.floor(Math.random() * (to - from + 1)) + from;
 }
 
+// Global event subscriber.
 function on(key, onDown, onUp) {
     on.keys[key] = {
         listeners: [onDown, onUp],
@@ -15,8 +17,10 @@ function on(key, onDown, onUp) {
     };
 }
 
+// Listeners (one key - one listener).
 on.keys = {};
 
+// Global event unsubscriber (clears all events at once).
 function off() {
     on.keys = {};
 }
@@ -57,6 +61,7 @@ var getUniqueID = (function () {
     };
 })();
 
+// Creation of a virtual canvas.
 function createCanvas(w, h) {
     var c = document.createElement('canvas');
     c.width = w;
@@ -64,12 +69,14 @@ function createCanvas(w, h) {
     return c;
 }
 
+// Disable smoothing while scaling a given canvas context.
 function disableCanvasSmoothness(context) {
     context.mozImageSmoothingEnabled = false;
     context.msImageSmoothingEnabled = false;
     context.imageSmoothingEnabled = false;
 }
 
+// Loading animation sprites before the start of the game.
 function loadImages(sprites, callback) {
 
     function load() {
@@ -88,6 +95,7 @@ function loadImages(sprites, callback) {
 
 }
 
+// A helper to iterate pixels in an ImageData object.
 function iterateImageData(imageData, callback) {
 
     function changePoint(r, g, b) {

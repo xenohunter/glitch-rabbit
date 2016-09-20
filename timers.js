@@ -1,3 +1,6 @@
+// Timers() class is used to wrap setTimeout/clearTimeout by keeping timers in an object.
+// That allows, for example, to clear all the timers simultaneously, avoiding "timer leaks".
+
 function Timers() {
 
     this.timers = {};
@@ -10,6 +13,7 @@ Timers.prototype.setTimeout = function (id, callback, delay, triggerBeforeClear)
 
     var self = this;
 
+    // ID can be provided by the user.
     if (typeof id == 'function') {
         triggerBeforeClear = delay;
         delay = callback;
@@ -26,7 +30,7 @@ Timers.prototype.setTimeout = function (id, callback, delay, triggerBeforeClear)
             delete self.timers[id];
         }, delay),
 
-        triggerBeforeClear: triggerBeforeClear,
+        triggerBeforeClear: triggerBeforeClear, // If set to true, `callback` will be invoked just before clearing.
         callback: callback
 
     };

@@ -26,7 +26,7 @@
             margin: -576px auto 0;
             background: #000;
             opacity: 0;
-            transition: opacity 0.5s;
+            transition: opacity 0.5s; /* It makes fading smooth. */
         }
 
         #mask.on {
@@ -37,11 +37,11 @@
 </head>
 <body>
     <canvas width="1200" height="576"></canvas>
-    <div id="mask" class="on"></div>
+    <div id="mask" class="on"></div> <-- That's used for fading the screen in and out. -->
 </body>
 
-<script src="constants.js"></script>
-<script src="tools.js"></script>
+<script src="constants.js"></script> <-- Global parameters, texture colors, and music. -->
+<script src="tools.js"></script> <-- Global tools like random(), loadImages(), etc. -->
 <script src="timers.js"></script>
 
 <script src="texture.js"></script>

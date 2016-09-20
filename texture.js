@@ -21,6 +21,7 @@ Texture.prototype.generate = function (factor) {
 
     factor = factor || PIXEL_SIZE;
 
+    // Fill ImageData object with random colors.
     for (i = 0; i < data.length; i += 4) {
         color = self.colors[random(0, self.colors.length - 1)];
         data[i] = color[0];
@@ -36,6 +37,7 @@ Texture.prototype.generate = function (factor) {
     self.ctx.drawImage(self.canvas, 0, 0);
     self.ctx.restore();
 
+    // Return a texture pattern.
     return self.ctx.createPattern(self.canvas, 'repeat');
 
 };

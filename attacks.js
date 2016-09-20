@@ -36,6 +36,7 @@ Shot.prototype.tick = function () {
 
     if (emitterIsHero) {
 
+        // Iterate all live units except Hero.
         level.iterateUnits(hero.id, true, function (unit) {
             if (haveCollision(unit, self)) {
                 delete level.attacks[self.id];
@@ -46,6 +47,7 @@ Shot.prototype.tick = function () {
 
     } else {
 
+        // Check for collision only with Hero.
         if (haveCollision(hero, self)) {
             delete level.attacks[self.id];
             hero.hit(self.power);
@@ -54,7 +56,6 @@ Shot.prototype.tick = function () {
     }
 
     if (Math.abs(self.startX - self.x) >= self.range && level.attacks[self.id]) {
-    // if (self.x >= self.startX + self.range && level.attacks[self.id]) {
         delete level.attacks[self.id];
     }
 
@@ -66,6 +67,7 @@ Shot.prototype.getAnimationFrame = function () {
         frameN,
         frame;
 
+    // That is to use every sprite for 100 ms and to stop on the last one.
     frameN = Math.floor((currentTime - self.creationTime) / 100);
     frame = self.animation.getFrame(frameN <= self.lastFrameNumber ? frameN : self.lastFrameNumber);
 
@@ -96,7 +98,7 @@ Beam.prototype.update = function () {
 
     var self = this;
 
-    if (self.stepsLeft < 0) {
+    if (self.stepsLeft < 0) { // When all steps are done.
         hero.speed = hero.defaultSpeed; // Restore default speed.
         self.glitch.remove();
         delete level.attacks[self.id];
@@ -120,7 +122,7 @@ Beam.prototype.tick = function () {
 
     self.glitch.update(self.x, self.y, self.w, self.h, 3 - self.stepsLeft);
 
-    // Here, we do not return `0` as far as that attack is MASSIVE.
+    // Here, we do not return `0` as far as that attack is AOE-like.
     level.iterateUnits(hero.id, true, function (unit) {
         if (haveCollision(unit, self)) {
             if (unit.hp <= self.power) {
@@ -149,7 +151,7 @@ function Shrapnel(x, y, dir) {
     self.x = x + (0.5 * PIXEL_SIZE * self.dir) - (self.dir < 0 ? self.w : 0);
     self.y = y - 2 * PIXEL_SIZE;
 
-    self.ay = -random(10, 18);
+    self.ay = -random(10, 18); // To make an upward angle of firing.
 
     self.speed = random(4, 10);
     self.power = random(3, 6);
@@ -167,11 +169,12 @@ Shrapnel.prototype.tick = function () {
     self.x += self.speed * self.dir;
 
     if (self.y + self.h + self.ay < GAME_H) {
-        self.y += ++self.ay;
+        self.y += ++self.ay; // Gravitation.
     } else {
-        delete level.attacks[self.id];
+        delete level.attacks[self.id]; // Remove when the shot touches the ground.
     }
 
+    // Hard and ugly: check for collision only with Hero.
     if (haveCollision(hero, self)) {
         delete level.attacks[self.id];
         hero.hit(self.power);

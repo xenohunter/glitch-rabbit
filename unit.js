@@ -1,6 +1,6 @@
 // Units .id property is added in Level.prototype.addUnit().
-// Units .tick() method is added in Hero and Enemy constructors.
-// Units .ownTick() method is added in Hero and terminal enemy constructors (i.e Bird).
+// Units .tick() method is added in Hero and Enemy classes.
+// Units .ownTick() method is added in Hero and some children enemy classes (i.e. Bird).
 
 function Unit() {}
 
@@ -14,7 +14,7 @@ Unit.prototype.applyBorders = function (gap) {
         : 0 - gap;
 };
 
-// Slow while not running and not in a jump.
+// Slow while not running and not in jump.
 Unit.prototype.applyFriction = function () {
     var self = this;
     if (self.isLanded && !self.isRunning) {
@@ -23,7 +23,6 @@ Unit.prototype.applyFriction = function () {
     }
 };
 
-// Gravitation with g = 1, which is very comfy to use.
 Unit.prototype.applyGravity = function () {
 
     var self = this;
@@ -45,6 +44,7 @@ Unit.prototype.jump = function (jumpForce) {
     if (this.isLanded) this.ay -= jumpForce;
 };
 
+// When unit is killed, all its timers are removed.
 Unit.prototype.clearTimers = function () {
     var self = this;
     self.timers && Object.keys(self.timers).forEach(function (key) {

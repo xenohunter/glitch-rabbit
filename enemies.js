@@ -11,6 +11,7 @@ Enemy.prototype.tick = function () {
     self.applyBorders(self.w);
     self.applyGravity();
 
+    // For those enemies who've been glitched.
     self.glitch && self.glitch.update(self.x, self.y, self.w, self.h);
 
     // Kill the enemy when it reaches the start.
@@ -23,6 +24,7 @@ Enemy.prototype.hit = function (n) {
     if (this.hp <= 0) this.kill();
 };
 
+// Default bump kills instantly.
 Enemy.prototype.bump = function (bumper, x, y) {
 
     var self = this;
@@ -49,6 +51,7 @@ Enemy.prototype.kill = function () {
     self.ax = 0;
     self.ay = 0;
 
+    // That is to dispose enemy remains for some time on the screen.
     gameTimers.setTimeout(function () {
 
         self.glitch.remove();
@@ -136,9 +139,13 @@ function Mouse(x) {
 extend(Mouse, Enemy);
 
 Mouse.prototype.ownTick = function () {
+
     var self = this;
     self.ax = -self.speed;
+
+    // Triple speed when Hero is near.
     if (self.x - hero.x + hero.w <= 500) self.speed = 15;
+
 };
 
 Mouse.prototype.getAnimationFrame = function () {
@@ -195,7 +202,7 @@ function Stone(x) {
     self.ax = 0;
     self.ay = 0;
 
-    self.isReversed = random(0, 1);
+    self.isReversed = random(0, 1); // That's not functional, just for visual variety.
 
     self.hitCounter = 0;
 
@@ -204,13 +211,18 @@ function Stone(x) {
 extend(Stone, Enemy);
 
 Stone.prototype.hit = function () {
+
     var self = this;
     self.hitCounter++;
+
+    // Every 5 hits, generate a mouse.
     if (self.hitCounter % 5 == 0) {
         level.addUnit(new Mouse(self.x));
+    // On eleventh hit, destroy the Stone.
     } else if (self.hitCounter >= 11) {
         self.kill();
     }
+
 };
 
 Stone.prototype.bump = function (obj) {
@@ -293,9 +305,11 @@ BigCactus.prototype.shoot = function (reflective) {
         minusY = random(0, 5) * PIXEL_SIZE,
         directedX = self.x + (dir < 0 ? 0 : self.w);
 
+    // Reflective shots use BALL sprite, default ones use SHOT (Hero uses them too).
     new Shot(self, reflective ? 'BALL' : 'SHOT', directedX, self.y + minusY, dir, random(6, 14), random(700, 1300), 3);
 
     if (!reflective) {
+        // Timer renews only on non-reflective shots.
         self.timers.shoot = gameTimers.setTimeout(self.shoot.bind(self), 800);
     }
 
@@ -305,7 +319,7 @@ BigCactus.prototype.hit = function (n) {
 
     var self = this;
 
-    self.shoot(true);
+    self.shoot(true); // Reflect attack.
 
     self.hp -= n;
     if (self.hp <= 0) self.kill();
@@ -357,6 +371,7 @@ Bat.prototype.ownTick = function () {
 
     self.ax = self.speed * self.dir;
 
+    // Establishing vertical boundaries.
     if (self.y <= 120) {
         self.retreatCoef = 1;
         self.vDir = 1;
@@ -373,12 +388,15 @@ Bat.prototype.hunt = function () {
     var self = this,
         distance = Math.abs(self.x - hero.x);
 
+    // At close distance, attack.
     if (distance < 600) {
         self.speed = 8;
         if (self.retreatCoef == 1) self.vDir = 1;
+    // At medium distance, roam.
     } else if (distance < 800) {
         self.speed = 5;
         self.dir *= random(0, 1) ? -1 : 1;
+    // At big distance, get closer.
     } else {
         self.speed = 5;
         self.dir = -(distance / (self.x - hero.x)); // Get the sign.
@@ -388,6 +406,7 @@ Bat.prototype.hunt = function () {
 
 };
 
+// Retreat upwards after a successful attack.
 Bat.prototype.bump = function () {
     this.y -= 18;
     this.vDir = -1;
@@ -439,6 +458,7 @@ Hydra.prototype.ownTick = function () {
 
         self.dir = (self.x > hero.x) ? -1 : 1;
 
+        // Friction implementation.
         if (self.ax > 0 && self.isLanded) {
             self.ax--;
         } else if (self.ax < 0 && self.isLanded) {
@@ -456,7 +476,7 @@ Hydra.prototype.attack = function () {
     self.attacksCount++;
 
     if (self.attacksCount >= 4) {
-        self.dance();
+        self.dance(); // It's more like a jump, in fact.
         self.attacksCount = 0;
     } else {
         self.shoot();

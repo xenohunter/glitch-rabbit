@@ -45,7 +45,7 @@ Camera.prototype.clear = function () {
         self.x = self.x + self.w > level.w ? level.w - self.w : self.x;
     }
 
-    // Sky background.
+    // Parallax sky background.
     self.ctx.fillStyle = level.sky;
     self.ctx.save();
     self.ctx.translate(-self.x % self.textureWidth / self.parallaxFactor, 0);

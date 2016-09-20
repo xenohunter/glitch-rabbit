@@ -6,16 +6,17 @@ function Level(name, winCallback, loseCallback) {
 
     self.w = self.meta.width;
 
-    self.land = new Texture(camera.textureWidth, camera.heightDiff, self.meta.land).generate();
+    self.land = new Texture(camera.textureWidth, camera.heightDiff, self.meta.land).generate(); // Default scale is PIXEL_SIZE (16).
     self.sky = new Texture(camera.textureWidth / camera.parallaxFactor, camera.h, self.meta.sky).generate(8);
 
     self.units = {};
     self.attacks = {};
     self.glitches = {};
 
-    self.heroFarthestX = 0;
-    self.ambushesPointer = 0;
+    self.heroFarthestX = 0; // How far Hero could reach.
+    self.ambushesPointer = 0; // Points to the last released ambush.
 
+    // Calculating how much "necessary enemies" are about to be killed.
     self.winSteps = self.meta.ambushes.reduce(function (steps, ambush) {
         if (ambush[5] && typeof ambush[4] == 'number') {
             return steps + ambush[2]; // Add the minimal number from random distribution.
@@ -136,8 +137,10 @@ Level.prototype.win = function () {
     var self = this,
         winMessage;
 
+    // To be sure level is not lost yet.
     if (!self.isLost) {
 
+        // Common message or one for the last level.
         winMessage = self.meta.last ? 'YOUR GLITCH JOURNEY IS DONE!' : WIN_MESSAGES[random(0, WIN_MESSAGES.length - 1)];
 
         self.isLost = false;
@@ -161,6 +164,7 @@ Level.prototype.lose = function () {
 
     var self = this;
 
+    // To be sure level is not won nor lost yet.
     if (self.isLost !== false && self.isLost !== true) {
 
         self.isLost = true;
@@ -194,6 +198,7 @@ Level.prototype.iterateUnits = function (exceptID, liveOnly, callback) {
 
     for (i = 0; i < unitsKeys.length; i++) {
         key = unitsKeys[i];
+        // Skip exceptID, if present. Skip dead enemies, if needed.
         if ((!exceptID || key != exceptID) && !(liveOnly && this.units[key].dead)) {
             if (callback(this.units[key]) == 0) break; // Optimization.
         }
@@ -207,6 +212,7 @@ Level.prototype.iterateAttacks = function () {
     }, this);
 };
 
+// Generate exact positions for enemies with a range of positions.
 Level.createSpreadArray = function (quantity, from, to) {
     var array = [];
     while (quantity--) {

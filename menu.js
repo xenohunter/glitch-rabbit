@@ -51,7 +51,7 @@ function Menu(startCallback) {
         }]
     ];
 
-    self.texts = []; // That is to be looked up by `camera.postEffects`.
+    self.texts = []; // That's to be looked up by `camera.postEffects`. Texts will be added here by Level.updateTexts().
 
     off();
 

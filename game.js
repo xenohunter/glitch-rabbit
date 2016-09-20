@@ -3,7 +3,7 @@ var camera,
 
     hero,
 
-    RAFID,
+    RAFID, // Request animation frame ID.
 
     music,
 
@@ -51,6 +51,7 @@ loadImages(SPRITES, function () {
 
     }
 
+    // An abridged version of `tickLevel()`.
     function tickMenu() {
 
         currentTime = Date.now();
@@ -72,6 +73,7 @@ loadImages(SPRITES, function () {
 
     function nextLevel(lvl) {
 
+        // Take all th precautions for there must be the ultimate stop before go to a different level or the menu.
         RAFID && window.cancelAnimationFrame(RAFID);
         gameTimers.nullifyTimers();
         camera.reset();
@@ -101,6 +103,7 @@ loadImages(SPRITES, function () {
 
     function menu() {
 
+        // The same precautions here.
         RAFID && window.cancelAnimationFrame(RAFID);
         gameTimers.nullifyTimers();
         camera.reset();
@@ -114,7 +117,7 @@ loadImages(SPRITES, function () {
             }, delay);
         });
 
-        camera.focusOn(level.units[1]);
+        camera.focusOn(level.units[1]); // There is a hard-coded ID in Menu constructor.
 
         hero = null;
 
