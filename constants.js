@@ -190,7 +190,7 @@ var COLOR_RED = '#f65555';
 var COLOR_BLUE = '#1499ff';
 
 var WIN_MESSAGES = ['YOU WIN!', 'DONE!', 'YOU ROCK!', 'GOOD JOB!'];
-var LOSE_MESSAGES = ['NOT TODAY', 'MAYBE, NEXT TIME', 'YOU WERE NEAR', 'YOU LOSE'];
+var LOSE_MESSAGES = ['NOT TODAY', 'MAYBE NEXT TIME', 'YOU WERE CLOSE', 'YOU LOSE'];
 
 // Land texture colors.
 var LAND = [
